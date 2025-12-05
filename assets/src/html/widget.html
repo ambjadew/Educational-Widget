@@ -18,11 +18,171 @@
 </head>
 
 <body>
+  <!-- Widget Page Template -->
+  <template id="widget-page-template">
+    <div class="column">
+
+      <!-- QUESTION 1 -->
+      <section class="question-section" data-index="0">
+        <div class="widget multiple-choice-widget">
+          <div class="question" id="q1">
+            <img src="ball_is_cat.png" alt='Ball in box labeled "cat"'>
+            <p><strong>1.</strong> If I open the box “cat”, what do I find?</p>
+          </div>
+
+          <div class="choices" role="radiogroup" aria-labelledby="q1">
+            <button role="radio" class="button-choice" data-correct="true">
+              <div class="button-choice-icon">A</div> the ball
+            </button>
+            <button role="radio" class="button-choice" data-correct="false">
+              <div class="button-choice-icon">B</div> a cat
+            </button>
+            <button role="radio" class="button-choice" data-correct="false">
+              <div class="button-choice-icon">C</div> toy car
+            </button>
+          </div>
+
+          <div class="feedback correct">Correct! The ball is in the box.</div>
+          <div class="feedback incorrect">Not quite — look again.</div>
+
+          <button class="button-semantic button-primary button-continue hidden">Continue</button>
+        </div>
+      </section>
+
+      <!-- QUESTION 2 -->
+      <section class="question-section hidden" data-index="1">
+        <div class="widget multiple-choice-widget">
+          <div class="question" id="q2">
+            <img src="car_is_cat.png" alt='Toy car in box labeled "cat"'>
+            <p><strong>2.</strong> If I open the box “cat”, what do I find?</p>
+          </div>
+
+          <div class="choices" role="radiogroup" aria-labelledby="q2">
+            <button role="radio" class="button-choice" data-correct="false">
+              <div class="button-choice-icon">A</div> ball
+            </button>
+            <button role="radio" class="button-choice" data-correct="true">
+              <div class="button-choice-icon">B</div> toy car
+            </button>
+            <button role="radio" class="button-choice" data-correct="false">
+              <div class="button-choice-icon">C</div> cat
+            </button>
+          </div>
+
+          <div class="feedback correct">Correct! The toy car is inside.</div>
+          <div class="feedback incorrect">Not quite.</div>
+
+          <button class="button-semantic button-primary button-continue hidden">Continue</button>
+        </div>
+      </section>
+
+      <!-- QUESTION 3 -->
+      <section class="question-section hidden" data-index="2">
+        <div class="widget multiple-choice-widget">
+          <div class="question" id="q3">
+            <img src="a_equals_27.png" alt="a = 27">
+            <p><strong>3.</strong> If I look at the letter “a”, what do I find?</p>
+          </div>
+          <div class="choices">
+            <button class="button-choice" data-correct="true"><div class="button-choice-icon">A</div>27</button>
+            <button class="button-choice" data-correct="false"><div class="button-choice-icon">B</div>46</button>
+            <button class="button-choice" data-correct="false"><div class="button-choice-icon">C</div>53</button>
+          </div>
+
+          <div class="feedback correct">Correct! a = 27.</div>
+          <div class="feedback incorrect">Incorrect — look again.</div>
+
+          <button class="button-semantic button-primary button-continue hidden">Continue</button>
+        </div>
+      </section>
+
+      <!-- QUESTION 4 -->
+      <section class="question-section hidden" data-index="3">
+        <div class="widget multiple-choice-widget">
+          <div class="question" id="q4">
+            <img src="a_equals_46.png" alt="a = 46">
+            <p><strong>4.</strong> If I look at the letter “a”, what do I find?</p>
+          </div>
+          <div class="choices">
+            <button class="button-choice" data-correct="false"><div class="button-choice-icon">A</div>27</button>
+            <button class="button-choice" data-correct="true"><div class="button-choice-icon">B</div>46</button>
+            <button class="button-choice" data-correct="false"><div class="button-choice-icon">C</div>53</button>
+          </div>
+
+          <div class="feedback correct">Correct! a = 46.</div>
+          <div class="feedback incorrect">Incorrect.</div>
+
+          <button class="button-semantic button-primary button-continue hidden">Continue</button>
+        </div>
+      </section>
+
+      <!-- QUESTION 5 -->
+      <section class="question-section hidden" data-index="4">
+        <div class="widget multiple-choice-widget">
+          <div class="question" id="q5">
+            <img src="f_assignment.png" alt="f = 6, f = 53">
+            <p><strong>5.</strong> If I look at the letter “f”, what do I find?</p>
+          </div>
+          <div class="choices">
+            <button class="button-choice" data-correct="false"><div class="button-choice-icon">A</div>6</button>
+            <button class="button-choice" data-correct="true"><div class="button-choice-icon">B</div>53</button>
+            <button class="button-choice" data-correct="false"><div class="button-choice-icon">C</div>27</button>
+          </div>
+
+          <div class="feedback correct">Correct! f = 53.</div>
+          <div class="feedback incorrect">Incorrect.</div>
+
+          <button class="button-semantic button-primary button-continue hidden">Continue</button>
+        </div>
+      </section>
+
+      <!-- done -->
+      <section class="hidden" id="done">
+        <h1>All Done!</h1>
+        <p>You finished all questions.</p>
+      </section>
+
+    </div>
+
+    <!-- only advance on correct answers -->
+    <script>
+      document.querySelectorAll(".question-section").forEach((sec, i, arr) => {
+        const choices = sec.querySelectorAll(".button-choice");
+        const fbGood = sec.querySelector(".feedback.correct");
+        const fbBad  = sec.querySelector(".feedback.incorrect");
+        const nextBtn = sec.querySelector(".button-continue");
+
+        choices.forEach(btn => {
+          btn.addEventListener("click", () => {
+
+            // Reset visuals
+            fbGood.style.display = fbBad.style.display = "none";
+            choices.forEach(c => c.classList.remove("selected"));
+
+            btn.classList.add("selected");
+
+            if (btn.dataset.correct === "true") {
+              fbGood.style.display = "block";
+              nextBtn.classList.remove("hidden");
+            } else {
+              fbBad.style.display = "block";
+            }
+          });
+        });
+
+        nextBtn.addEventListener("click", () => {
+          sec.classList.add("hidden");
+          if (arr[i+1]) arr[i+1].classList.remove("hidden");
+          else document.getElementById("done").classList.remove("hidden");
+        });
+      });
+    </script>
+  </template>
+
   <script type="module">
     import { WidgetPage } from "../js/WidgetPage.js";
-
     document.addEventListener("DOMContentLoaded", () => {
-      const widgetPage = new WidgetPage("widget-page-template", document.body);
+      new WidgetPage("widget-page-template", document.body);
     });
   </script>
 </body>
